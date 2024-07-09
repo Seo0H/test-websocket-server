@@ -12,7 +12,7 @@ function onSocketError(err) {
 }
 
 const app = express();
-const map = new Map();
+const clientMap: Map<string, WebSocket> = new Map();
 
 //
 // We need the same instance of the session parser in express and
@@ -33,6 +33,7 @@ app.use(sessionParser);
 app.use(
   cors({
     origin: "http://localhost:5173",
+    credentials: true,
   })
 );
 
@@ -68,6 +69,7 @@ const server = http.createServer(app);
 //
 const wss = new WebSocketServer({ clientTracking: false, noServer: true });
 
+// 클라이언트 인증
 server.on("upgrade", function (request, socket, head) {
   socket.on("error", onSocketError);
 
@@ -93,7 +95,7 @@ server.on("upgrade", function (request, socket, head) {
 wss.on("connection", function (ws, request) {
   const userId = request.session.userId;
 
-  map.set(userId, ws);
+  clientMap.set(userId, ws);
 
   ws.on("error", console.error);
 
@@ -102,10 +104,11 @@ wss.on("connection", function (ws, request) {
     // Here we can now use session parameters.
     //
     console.log(`Received message ${message} from user ${userId}`);
+    clientMap.forEach((client) => client);
   });
 
   ws.on("close", function () {
-    map.delete(userId);
+    clientMap.delete(userId);
   });
 });
 
