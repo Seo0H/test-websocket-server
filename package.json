@@ -1,0 +1,29 @@
+{
+  "name": "test-websocket-server",
+  "version": "1.0.0",
+  "main": "chat.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "tsc && node chat.ts",
+    "dev": "npx tsx watch chat.ts",
+    "start": "node chat.js",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@types/ws": "^8.5.10",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "http": "^0.0.1-security",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/express-session": "^1.18.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
